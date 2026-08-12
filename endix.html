@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحديث النظام</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            user-select: none;
+            cursor: pointer;
+        }
+        #loading-screen {
+            text-align: center;
+        }
+        .spinner {
+            border: 4px solid rgba(0, 255, 0, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #00ff00;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        #prank-screen {
+            display: none;
+            background-color: #000;
+            color: red;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 10;
+        }
+        h1.glitch { font-size: 32px; animation: glitch 0.3s infinite; }
+        p.warning { font-size: 16px; color: white; }
+        #exit-btn {
+            display: none;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes glitch { 0% { transform: translate(2px, 2px); } 50% { transform: translate(-2px, -2px); } 100% { transform: translate(1px, -1px); } }
+    </style>
+</head>
+<body>
+
+    <div id="loading-screen" onclick="startSafePrank()">
+        <h3>جاري تحميل المحتوى...</h3>
+        <div class="spinner"></div>
+        <p>اضغط للشروع</p>
+    </div>
+
+    <div id="prank-screen">
+        <h1 class="glitch" id="main-title">SYSTEM FAILURE</h1>
+        <p class="warning" id="sub-title">⚠️ تم اكتشاف نشاط مشبوه ⚠️</p>
+        <p style="color: gray; font-size: 12px;">جاري تشفير البيانات...</p>
+        <a href="https://www.google.com" id="exit-btn">اضغط للخروج الآمن</a>
+    </div>
+
+    <script>
+        let alarmSound = new Audio('https://cdn.pixabay.com/audio/2022/03/19/audio_1049386d3e.mp3');
+        alarmSound.loop = true;
+
+        function startSafePrank() {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('prank-screen').style.display = 'flex';
+
+            alarmSound.play().catch(function(e) {});
+
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            }
+
+            setTimeout(function() {
+                alarmSound.pause();
+                alarmSound.currentTime = 0;
+
+                document.getElementById('exit-btn').style.display = 'inline-block';
+                document.getElementById('main-title').innerHTML = "تم السيطرة على الوضع";
+                document.getElementById('main-title').style.color = "#00ff00";
+                document.getElementById('sub-title').innerHTML = "تعيش وتاكل غيرها! المقلب انتهى.";
+
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }, 15000);
+        }
+    </script>
+</body>
+</html>
